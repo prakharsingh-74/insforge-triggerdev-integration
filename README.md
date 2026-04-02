@@ -167,12 +167,12 @@ Function: `notify-media-upload`
 
 ---
 
-## 📸 Sample Flow
+## 📸 Screenshots
+<img width="1909" height="1025" alt="image" src="https://github.com/user-attachments/assets/d1e8877e-a8df-46a2-873d-e7439d2a7391" />
+<img width="1919" height="1029" alt="image" src="https://github.com/user-attachments/assets/f17ea449-9a27-464d-bcdf-28765268a6d7" />
+<img width="1919" height="1028" alt="image" src="https://github.com/user-attachments/assets/0f9d837b-2b80-4160-89d2-7f975b57169f" />
+<img width="750" height="474" alt="image" src="https://github.com/user-attachments/assets/6044d168-b0b1-4756-893c-182fca1fcdeb" />
 
-1. Trigger task manually / via API
-2. AI analyzes media
-3. Result stored in DB
-4. Notification triggered
 
 ---
 
