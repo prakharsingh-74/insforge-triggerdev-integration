@@ -1,62 +1,178 @@
-# Insforge + Trigger.dev Integration Examples
+# 🚀 Insforge + Trigger.dev AI Media Pipeline
 
-This repository demonstrates how to use **Insforge** with **Trigger.dev** to build AI-powered workflows. 
+An end-to-end **AI-powered media processing pipeline** built using **Insforge** and **Trigger.dev**.
 
-## Why this example?
+This project demonstrates how to:
 
-This repository demonstrates how **Trigger.dev** can orchestrate AI-powered workflows using **Insforge** as a backend, combining AI, database operations, and serverless functions in a single pipeline. This approach allows for a clean separation of concerns: Trigger.dev handles the workflow logic and reliability (retries, observability), while Insforge handles the AI analysis and data storage.
+* Analyze media using AI
+* Store results in a database
+* Trigger follow-up workflows (notifications)
+* Orchestrate everything using background jobs
 
-## Example: AI Media Pipeline
+---
 
-The primary example is a media processing pipeline that:
-1. **Analyze media**: Uses Insforge AI to generate a description for a media file URL.
-2. **Store in database**: Persists the AI analysis in the `media_assets` table.
-3. **Trigger notification**: Invokes a serverless function to alert other systems of the new upload.
+## 🧠 Architecture Overview
 
-📁 **See**: `examples/insforge-ai-media-pipeline`
+```
+Trigger.dev Task
+      ↓
+Insforge Edge Function (AI Analysis)
+      ↓
+Database (store results)
+      ↓
+Insforge Edge Function (Notification)
+```
 
-## Database Setup
+---
 
-To run this example, create a table named `media_assets` in your Insforge project with the following fields:
+## ⚙️ Tech Stack
 
-- `file_url` (text)
-- `description` (text)
+* **Trigger.dev v3** → Background job orchestration
+* **Insforge SDK** → Backend (DB, AI, Functions)
+* **TypeScript** → Type-safe development
+* **Node.js** → Runtime
 
-## Setup
+---
 
-1. Clone this repository.
-2. Navigate to the example directory:
-   ```bash
-   cd examples/insforge-ai-media-pipeline
-   ```
-3. Install dependencies:
-   ```bash
-   npm install
-   ```
-4. Copy `.env.example` to `.env` and fill in your Insforge credentials:
-   ```bash
-   cp .env.example .env
-   ```
+## 📁 Project Structure
 
-## Run the project
+```
+insforge-triggerdev/
+│
+├── insforge/
+│   └── functions/
+│       ├── analyze-media/
+│       │   └── index.ts
+│       └── notify-media-upload/
+│           └── index.ts
+│
+├── src/
+│   ├── lib/
+│   │   └── insforge.ts
+│   └── trigger/
+│       └── mediaPipeline.ts
+│
+├── .env.example
+├── trigger.config.ts
+├── package.json
+└── README.md
+```
 
-To run the Trigger.dev development environment:
+---
 
-```bash
+## 🔑 Environment Variables
+
+Create a `.env` file in the root:
+
+```
+INSFORGE_URL=https://your-project.insforge.app
+INSFORGE_ANON_KEY=your_anon_key
+```
+
+⚠️ Never commit `.env` to GitHub.
+
+---
+
+## 🚀 Getting Started
+
+### 1️⃣ Install dependencies
+
+```
+npm install
+```
+
+---
+
+### 2️⃣ Setup Insforge Project
+
+Link your project:
+
+```
+npx @insforge/cli link --project-id <your_project_id>
+```
+
+---
+
+### 3️⃣ Deploy Functions
+
+```
+npx @insforge/cli functions deploy analyze-media
+npx @insforge/cli functions deploy notify-media-upload
+```
+
+---
+
+### 4️⃣ Run Trigger.dev locally
+
+```
 npx trigger.dev dev
 ```
 
-## Example Payload
+---
 
-You can trigger the task with the following JSON payload:
+## 🧩 How It Works
+
+### 🔹 Step 1: Trigger.dev Task
+
+File: `mediaPipeline.ts`
+
+* Receives media URL
+* Calls Insforge AI function
+* Stores result in DB
+* Triggers notification function
+
+---
+
+### 🔹 Step 2: AI Processing
+
+Function: `analyze-media`
+
+* Takes `fileUrl`
+* Uses AI to generate description
+* Returns structured response
+
+---
+
+### 🔹 Step 3: Database Storage
+
+```
+media_assets table:
+- id
+- file_url
+- description
+```
+
+---
+
+### 🔹 Step 4: Notification
+
+Function: `notify-media-upload`
+
+* Receives assetId + description
+* Can be extended to:
+
+  * Send email
+  * Push notifications
+  * Webhooks
+
+---
+
+## 🧪 Example Payload
 
 ```json
 {
-  "fileUrl": "https://example.com/image.png"
+  "fileUrl": "https://images.unsplash.com/photo-1503023345310-bd7c1de61c7d"
 }
 ```
 
-## Use cases
-- **AI media analysis**: Automated captioning or tagging of uploaded images/videos.
-- **Automated tagging**: Categorizing content for searchability.
-- **Content pipelines**: Building complex multi-step content moderation workflows.
+---
+
+## 📸 Sample Flow
+
+1. Trigger task manually / via API
+2. AI analyzes media
+3. Result stored in DB
+4. Notification triggered
+
+---
+
